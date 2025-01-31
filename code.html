@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installation Ollama (Simulée)</title>
+    <style>
+        body {
+            font-family: monospace;
+            background-color: #222;
+            color: #eee;
+            padding: 20px;
+        }
+        .terminal {
+            background-color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-y: auto;
+            max-height: 500px;
+        }
+        .terminal-line {
+            margin-bottom: 5px;
+        }
+        .command {
+            color: #0f0;
+        }
+        .output {
+            color: #fff;
+        }
+        .prompt {
+            color: #0ff;
+        }
+        .terminal-input {
+            background-color: #444;
+            color: #eee;
+            border: none;
+            padding: 5px;
+            font-family: monospace;
+            width: 80%;
+        }
+        .terminal-input:focus {
+            outline: none;
+        }
+        .terminal-input-container {
+            display: flex;
+            align-items: center;
+        }
+        .system-info {
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Installation d'Ollama (Simulée)</h1>
+    <p>Ce terminal simule l'installation d'Ollama. Les commandes doivent être exécutées manuellement sur votre machine.</p>
+    <div class="terminal" id="terminal">
+        <div class="terminal-line"><span class="output">Bienvenue dans le terminal simulé.</span></div>
+        <div class="terminal-line"><span class="prompt">user@machine:~$</span> <span class="output"></span></div>
+    </div>
+    <div class="terminal-input-container">
+        <span class="prompt">user@machine:~$</span>
+        <input type="text" class="terminal-input" id="terminal-input" placeholder="Tapez une commande ici (simulée)" autofocus>
+    </div>
+    <div class="system-info" id="system-info"></div>
+
+    <script>
+        const terminal = document.getElementById('terminal');
+        const terminalInput = document.getElementById('terminal-input');
+        const systemInfo = document.getElementById('system-info');
+
+        const commands = [
+            { command: "echo 'Téléchargement d'Ollama...'", output: "Téléchargement d'Ollama..." },
+            { command: "curl -sSL https://ollama.ai/install.sh | sh", output: "Exécutez cette commande dans votre vrai terminal pour installer Ollama." },
+            { command: "echo 'Installation terminée.'", output: "Installation terminée." },
+            { command: "ollama run llama2", output: "Exécutez cette commande dans votre vrai terminal pour lancer llama2." },
+            { command: "echo 'Ollama est prêt !'", output: "Ollama est prêt !" }
+        ];
+
+        let commandIndex = 0;
+
+        function displayCommand(command, output) {
+            const line = document.createElement('div');
+            line.classList.add('terminal-line');
+            line.innerHTML = `<span class="prompt">user@machine:~$</span> <span class="command">${command}</span>`;
+            terminal.appendChild(line);
+
+            const outputLine = document.createElement('div');
+            outputLine.classList.add('terminal-line');
+            outputLine.innerHTML = `<span class="output">${output}</span>`;
+            terminal.appendChild(outputLine);
+
+            terminal.scrollTop = terminal.scrollHeight; // Scroll to bottom
+        }
+
+        function displayNextCommand() {
+            if (commandIndex < commands.length) {
+                const command = commands[commandIndex];
+                displayCommand(command.command, command.output);
+                commandIndex++;
+                setTimeout(displayNextCommand, 1000); // Délai pour simuler l'exécution
+            }
+        }
+
+        function handleInput(event) {
+            if (event.key === 'Enter') {
+                const command = terminalInput.value;
+                terminalInput.value = '';
+                displayCommand(command, "Commande simulée.");
+                // Ici, on pourrait ajouter une logique pour simuler des réponses à des commandes spécifiques
+            }
+        }
+
+        function detectOS() {
+            const userAgent = navigator.userAgent;
+            let os = "Inconnu";
+
+            if (userAgent.indexOf("Windows") != -1) {
+                os = "Windows";
+            } else if (userAgent.indexOf("Mac OS X") != -1) {
+                os = "macOS";
+            } else if (userAgent.indexOf("Linux") != -1) {
+                os = "Linux";
+            }
+
+            systemInfo.innerHTML = `Système d'exploitation détecté : ${os}. Veuillez vous référer à la documentation d'Ollama pour les instructions d'installation spécifiques à votre système.`;
+        }
+
+        displayNextCommand();
+        terminalInput.addEventListener('keydown', handleInput);
+        detectOS();
+    </script>
+</body>
+</html>
