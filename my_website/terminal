@@ -1,0 +1,9 @@
+mkdir doc2ai
+cd doc2ai
+npm init -y
+mkdir src
+mkdir public
+mkdir src/components
+mkdir src/pages
+mkdir src/styles
+mkdir src/utils 
